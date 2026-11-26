@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { siBluesky, siGithub, siModrinth, siSteam, siTwitch, siYoutube } from "simple-icons";
 
 const socialLinks = [
-  { name: "YouTube", handle: "Videos", href: "https://www.youtube.com/channel/UCSCE7TQXAhqAS8MXP6OWIXQ", mark: "▶" },
-  { name: "Twitch", handle: "Live streams", href: "https://www.twitch.tv/starryprinceling", mark: "◉" },
-  { name: "Bluesky", handle: "Social updates", href: "https://bsky.app/profile/starryprinceling.bsky.social", mark: "✳" },
-  { name: "Modrinth", handle: "Minecraft projects", href: "https://modrinth.com/user/StarryPrinceling", mark: "◈" },
-  { name: "GitHub", handle: "Code and projects", href: "https://github.com/StarryPrinceling", mark: "⌘" },
+  { name: "YouTube", handle: "Videos", href: "https://www.youtube.com/channel/UCSCE7TQXAhqAS8MXP6OWIXQ", icon: siYoutube },
+  { name: "Twitch", handle: "Live streams", href: "https://www.twitch.tv/starryprinceling", icon: siTwitch },
+  { name: "Bluesky", handle: "Social updates", href: "https://bsky.app/profile/starryprinceling.bsky.social", icon: siBluesky },
+  { name: "Modrinth", handle: "Minecraft projects", href: "https://modrinth.com/user/StarryPrinceling", icon: siModrinth },
+  { name: "GitHub", handle: "Code and projects", href: "https://github.com/StarryPrinceling", icon: siGithub },
+  { name: "Steam", handle: "Steam profile", href: "https://steamcommunity.com/profiles/76561198600212555/", icon: siSteam },
 ];
 
 const projects = [
@@ -46,6 +48,7 @@ function SiteHeader({ route }) {
       <nav className="top-nav" aria-label="Main navigation">
         <a className={route === "/" ? "active" : ""} href="#/">Home</a>
         <a className={route.startsWith("/projects") ? "active" : ""} href="#/projects">Projects</a>
+        <a className={route === "/ai-policy" ? "active" : ""} href="#/ai-policy">AI policy</a>
         <a href="mailto:starryprinceling@proton.me">Contact</a>
       </nav>
     </header>
@@ -83,18 +86,29 @@ function Socials() {
       <div className="social-grid">
         {socialLinks.map((link) => (
           <a className="social-link" href={link.href} key={link.name} target="_blank" rel="noreferrer">
-            <span className="social-mark" aria-hidden="true">{link.mark}</span>
+            <span className="social-mark" aria-hidden="true">
+              <svg className="brand-icon" viewBox="0 0 24 24" focusable="false"><path d={link.icon.path} /></svg>
+            </span>
             <span className="social-copy"><strong>{link.name}</strong><small>{link.handle}</small></span>
             <span className="social-arrow" aria-hidden="true">↗</span>
           </a>
         ))}
-        <a className="social-link email-link" href="mailto:starryprinceling@proton.me">
-          <span className="social-mark" aria-hidden="true">✉</span>
-          <span className="social-copy"><strong>Email</strong><small>starryprinceling@proton.me</small></span>
-          <span className="social-arrow" aria-hidden="true">↗</span>
-        </a>
       </div>
       <p className="username-note">I'm called <strong>StarryPrinceling</strong> on most major platforms, including Discord and Minecraft.</p>
+    </section>
+  );
+}
+
+function AboutSection() {
+  return (
+    <section className="about-section page-width" id="about">
+      <Eyebrow>ABOUT</Eyebrow>
+      <h2>About me<span className="lavender">.</span></h2>
+      <div className="about-copy">
+        <p>I’ve loved games for as long as I can remember. I’m a nonbinary person in my twenties with a computer science degree, and I enjoy thinking about how games work as much as I enjoy playing them.</p>
+        <p>I’ve been playing Magic: The Gathering for over 15 years and Minecraft since its early beta days. I’m also a fan of tabletop RPGs, especially Dungeons &amp; Dragons.</p>
+        <p>Some other games I love are The Legend of Zelda: Tears of the Kingdom, Deltarune, Outer Wilds, and Disco Elysium.</p>
+      </div>
     </section>
   );
 }
@@ -128,6 +142,8 @@ function HomePage() {
 
         <Socials />
 
+        <AboutSection />
+
         <section className="projects-section page-width" id="projects">
           <div className="section-heading">
             <div>
@@ -141,6 +157,22 @@ function HomePage() {
           </div>
         </section>
       </main>
+  );
+}
+
+function AIPolicyPage() {
+  return (
+    <main className="detail-page page-width ai-policy-page">
+      <Eyebrow>CREATIVE WORK AND AI</Eyebrow>
+      <h1>AI policy</h1>
+      <p className="detail-lead">How I use—and do not use—AI in my creative work.</p>
+      <section className="detail-panel">
+        <h2>Art and creative work</h2>
+        <p>I’m strongly opposed to using AI to create art in any medium, including images, video, audio, and writing. I don’t use AI to generate creative work; everything I produce reflects my own original creative vision.</p>
+        <h2>Coding assistance</h2>
+        <p>I sometimes use AI to assist with coding, but never to generate creative ideas or assets. AI-assisted coding is standard industry practice and is required in my professional work. It has also helped me learn to make small Minecraft mods—work that might otherwise have taken me weeks to figure out on my own.</p>
+      </section>
+    </main>
   );
 }
 
@@ -296,10 +328,11 @@ export default function App() {
 
   const isOrbellion = route.startsWith("/projects/orbellion");
   const isFrontier = route === "/projects/familiar-frontier";
+  const isAiPolicy = route === "/ai-policy";
   useEffect(() => {
-    const title = isOrbellion ? "Orbellion — StarryPrinceling" : isFrontier ? "Familiar Frontier — StarryPrinceling" : "StarryPrinceling";
+    const title = isOrbellion ? "Orbellion — StarryPrinceling" : isFrontier ? "Familiar Frontier — StarryPrinceling" : isAiPolicy ? "AI policy — StarryPrinceling" : "StarryPrinceling";
     document.title = title;
-  }, [isOrbellion, isFrontier]);
+  }, [isOrbellion, isFrontier, isAiPolicy]);
   useEffect(() => {
     if (route === "/socials") document.getElementById("socials")?.scrollIntoView();
   }, [route]);
@@ -307,7 +340,7 @@ export default function App() {
   return (
     <div id="top">
       <SiteHeader route={route} />
-      {isOrbellion ? <OrbellionPage route={route} /> : isFrontier ? <FamiliarFrontierPage /> : route === "/projects" ? <AllProjectsPage /> : <HomePage />}
+      {isOrbellion ? <OrbellionPage route={route} /> : isFrontier ? <FamiliarFrontierPage /> : isAiPolicy ? <AIPolicyPage /> : route === "/projects" ? <AllProjectsPage /> : <HomePage />}
       <SiteFooter />
     </div>
   );
