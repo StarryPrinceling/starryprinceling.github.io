@@ -297,7 +297,7 @@ export default function App() {
   const isOrbellion = route.startsWith("/projects/orbellion");
   const isFrontier = route === "/projects/familiar-frontier";
   useEffect(() => {
-    const title = isOrbellion ? "Orbellion — StarryPrinceling" : isFrontier ? "Familiar Frontier — StarryPrinceling" : "StarryPrinceling — game design and projects";
+    const title = isOrbellion ? "Orbellion — StarryPrinceling" : isFrontier ? "Familiar Frontier — StarryPrinceling" : "StarryPrinceling";
     document.title = title;
   }, [isOrbellion, isFrontier]);
   useEffect(() => {
